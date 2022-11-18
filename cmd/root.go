@@ -14,7 +14,7 @@ var (
 
 var configCmd = &cobra.Command{
 	Use:   "config",
-	Short: "config",
+	Short: "Create or overwrite a config file ( ~/.cisco_vpn/credentials )",
 	Run: func(cmd *cobra.Command, args []string) {
 		config()
 	},
@@ -22,7 +22,7 @@ var configCmd = &cobra.Command{
 
 var connectCmd = &cobra.Command{
 	Use:   "connect",
-	Short: "connect",
+	Short: "Connect to a virtual private network",
 	Run: func(cmd *cobra.Command, args []string) {
 		connect()
 	},
@@ -30,7 +30,7 @@ var connectCmd = &cobra.Command{
 
 var disconnectCmd = &cobra.Command{
 	Use:   "disconnect",
-	Short: "disconnect",
+	Short: "Disconnect from a virtual private network",
 	Run: func(cmd *cobra.Command, args []string) {
 		disconnect()
 	},
@@ -38,7 +38,7 @@ var disconnectCmd = &cobra.Command{
 
 var stateCmd = &cobra.Command{
 	Use:   "state",
-	Short: "state",
+	Short: "Check state ( connected or disconnected )",
 	Run: func(cmd *cobra.Command, args []string) {
 		state()
 	},
