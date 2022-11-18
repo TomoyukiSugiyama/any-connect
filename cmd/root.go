@@ -28,9 +28,18 @@ var disconnectCmd = &cobra.Command{
 	},
 }
 
+var stateCmd = &cobra.Command{
+	Use:   "state",
+	Short: "state",
+	Run: func(cmd *cobra.Command, args []string) {
+		state()
+	},
+}
+
 func init() {
 	rootCmd.AddCommand(connectCmd)
 	rootCmd.AddCommand(disconnectCmd)
+	rootCmd.AddCommand(stateCmd)
 }
 
 func Execute() error {
