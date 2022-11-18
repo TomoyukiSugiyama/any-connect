@@ -12,6 +12,14 @@ var (
 	}
 )
 
+var configCmd = &cobra.Command{
+	Use:   "config",
+	Short: "config",
+	Run: func(cmd *cobra.Command, args []string) {
+		config()
+	},
+}
+
 var connectCmd = &cobra.Command{
 	Use:   "connect",
 	Short: "connect",
@@ -37,6 +45,7 @@ var stateCmd = &cobra.Command{
 }
 
 func init() {
+	rootCmd.AddCommand(configCmd)
 	rootCmd.AddCommand(connectCmd)
 	rootCmd.AddCommand(disconnectCmd)
 	rootCmd.AddCommand(stateCmd)
