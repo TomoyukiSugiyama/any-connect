@@ -12,19 +12,55 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
-func createConfig() {
+var c *Config
+
+func init() {
+	c = New()
+}
+
+type Config struct {
+	configDir  string
+	configPath string
+	configName string
+	hostName   string
+	groupName  string
+	userName   string
+	password   string
+}
+
+func New() *Config {
+	c := new(Config)
 	home, _ := os.UserHomeDir()
-	if err := os.Mkdir(home+"/.cisco__vpn", 0755); err != nil {
+	c.configDir = home + "/.cisco_vpn2"
+	c.configName = "credentials"
+	c.configPath = c.configDir + "/" + c.configName
+	c.hostName = ""
+	c.groupName = ""
+	c.userName = ""
+	c.password = ""
+	return c
+}
+
+func createConfigDir(c Config) {
+	if err := os.Mkdir(c.configDir, 0755); err != nil {
 		log.Fatal(err)
 	}
-	f, err := os.Create(home + "/.cisco__vpn/credentials")
+}
+
+func setConfig(c Config) {
+	f, err := os.OpenFile(c.configPath, os.O_RDWR|os.O_CREATE, 0600)
+	f.WriteString("connect " + c.hostName + "\n")
+	f.WriteString("y\n")
+	f.WriteString(c.groupName + "\n")
+	f.WriteString(c.userName + "\n")
+	f.WriteString(c.password + "\n")
 	if err != nil {
 		log.Fatal(err)
 	}
 	defer f.Close()
 }
 
-func selectHost() {
+func selectHost(c *Config) {
 	cmd := "/opt/cisco/anyconnect/bin/vpn hosts"
 	out, _ := exec.Command("sh", "-c", cmd).Output()
 	s := string(out)
@@ -61,9 +97,10 @@ func selectHost() {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
 	}
+	c.hostName = result
 }
 
-func setGroup() {
+func setGroup(c *Config) {
 
 	validate := func(input string) error {
 		if len(input) < 1 {
@@ -85,15 +122,16 @@ func setGroup() {
 		Templates: templates,
 	}
 
-	_, err := prompt.Run()
+	result, err := prompt.Run()
 
 	if err != nil {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
 	}
+	c.groupName = result
 }
 
-func setUser() {
+func setUser(c *Config) {
 
 	validate := func(input string) error {
 		if len(input) < 1 {
@@ -115,15 +153,16 @@ func setUser() {
 		Templates: templates,
 	}
 
-	_, err := prompt.Run()
+	result, err := prompt.Run()
 
 	if err != nil {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
 	}
+	c.userName = result
 }
 
-func setPassword() {
+func setPassword(c *Config) {
 	validate := func(input string) error {
 		if len(input) < 1 {
 			return errors.New("Password must have more than 1 characters")
@@ -137,34 +176,33 @@ func setPassword() {
 		Mask:     '*',
 	}
 
-	_, err := prompt.Run()
+	result, err := prompt.Run()
 
 	if err != nil {
 		fmt.Printf("Prompt failed %v\n", err)
 		return
 	}
+	c.password = result
 }
 
 func connect() {
-	// home, _ := os.UserHomeDir()
-	// config_path := home + "/.cisco__vpn/"
-	// config := config_path + "credentials"
+	if _, err := os.Stat(c.configDir); os.IsNotExist(err) {
+		createConfigDir(*c)
+	}
 
-	// f, err := os.Stat(config)
-	// if os.IsNotExist(err) || f.IsDir() {
-	// 	fmt.Println("not exist")
-	// 	createConfig()
-	// }
+	if f, err := os.Stat(c.configPath); os.IsNotExist(err) || f.IsDir() {
+		selectHost(c)
+		setGroup(c)
+		setUser(c)
+		setPassword(c)
+		setConfig(*c)
+	}
 
-	selectHost()
-	setGroup()
-	setUser()
-	setPassword()
-	// cmd := "/opt/cisco/anyconnect/bin/vpn -s < " + cisco + config
-	// out, err := exec.Command("sh", "-c", cmd).Output()
-	// if err != nil {
-	// 	fmt.Println(err.Error())
-	// 	os.Exit(1)
-	// }
-	// fmt.Println(string(out))
+	cmd := "/opt/cisco/anyconnect/bin/vpn -s < " + c.configPath
+	out, err := exec.Command("sh", "-c", cmd).Output()
+	if err != nil {
+		fmt.Println(err.Error())
+		os.Exit(1)
+	}
+	fmt.Println(string(out))
 }
