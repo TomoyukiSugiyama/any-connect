@@ -31,7 +31,7 @@ type Config struct {
 func New() *Config {
 	c := new(Config)
 	home, _ := os.UserHomeDir()
-	c.configDir = home + "/.cisco_vpn2"
+	c.configDir = home + "/.cisco_vpn"
 	c.configName = "credentials"
 	c.configPath = c.configDir + "/" + c.configName
 	c.hostName = ""
