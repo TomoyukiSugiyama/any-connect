@@ -1,26 +1,27 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
-	Use:   "any-connect [sub]",
-	Short: "Any Connect CLI",
-}
+var (
+	cfgFile string
+	rootCmd = &cobra.Command{
+		Use:   "any-connect [sub]",
+		Short: "Any Connect CLI",
+	}
+)
 
-var initCmd = &cobra.Command{
-	Use:   "config",
-	Short: "configuration",
+var configCmd = &cobra.Command{
+	Use:   "connect",
+	Short: "connect",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("initCmd")
+		connect()
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(initCmd)
+	rootCmd.AddCommand(configCmd)
 }
 
 func initConfig() {
