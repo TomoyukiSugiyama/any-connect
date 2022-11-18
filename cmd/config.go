@@ -81,7 +81,7 @@ func selectHost(c *Config) {
 
 	for index < 0 {
 		prompt := promptui.SelectWithAdd{
-			Label:    "What's your text editor",
+			Label:    "Which host do you want to connect",
 			Items:    items,
 			AddLabel: "Other",
 		}
@@ -117,7 +117,7 @@ func setGroup(c *Config) {
 	}
 
 	prompt := promptui.Prompt{
-		Label:     "Group",
+		Label:     "Group:",
 		Validate:  validate,
 		Templates: templates,
 	}
@@ -148,7 +148,7 @@ func setUser(c *Config) {
 	}
 
 	prompt := promptui.Prompt{
-		Label:     "User",
+		Label:     "User:",
 		Validate:  validate,
 		Templates: templates,
 	}
