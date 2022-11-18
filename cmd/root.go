@@ -12,7 +12,7 @@ var (
 	}
 )
 
-var configCmd = &cobra.Command{
+var connectCmd = &cobra.Command{
 	Use:   "connect",
 	Short: "connect",
 	Run: func(cmd *cobra.Command, args []string) {
@@ -20,12 +20,17 @@ var configCmd = &cobra.Command{
 	},
 }
 
-func init() {
-	rootCmd.AddCommand(configCmd)
+var disconnectCmd = &cobra.Command{
+	Use:   "disconnect",
+	Short: "disconnect",
+	Run: func(cmd *cobra.Command, args []string) {
+		disconnect()
+	},
 }
 
-func initConfig() {
-
+func init() {
+	rootCmd.AddCommand(connectCmd)
+	rootCmd.AddCommand(disconnectCmd)
 }
 
 func Execute() error {
