@@ -17,8 +17,8 @@ Configuration file is stored in `~/.cisco_vpn/credentials`.
 ```sh
 $ any-connect connect 
 ✔ YOUR_VPN_HOST
-Group YOUR_VPN_GROUP
-User USER_NAME
+Group: YOUR_VPN_GROUP
+User: USER_NAME
 Password: **********
 ```
 
