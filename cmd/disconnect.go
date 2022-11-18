@@ -8,7 +8,7 @@ import (
 
 func disconnect() {
 	cmd := "/opt/cisco/anyconnect/bin/vpn disconnect"
-	out, err := exec.Command("sh", cmd).Output()
+	out, err := exec.Command("sh", "-c", cmd).Output()
 	if err != nil {
 		fmt.Println(err.Error())
 		os.Exit(1)
