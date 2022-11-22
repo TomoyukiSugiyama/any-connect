@@ -1,19 +1,43 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
-	"os"
 	"os/exec"
+	"syscall"
+	"time"
 )
+
+func showPS() {
+	b, err := exec.Command("ps", "j").Output()
+	fmt.Println(string(b), err)
+}
 
 func connect() {
 	configIfNotExist()
 
-	cmd := "/opt/cisco/anyconnect/bin/vpn -s < " + c.configPath
-	out, err := exec.Command("sh", "-c", cmd).Output()
-	if err != nil {
-		fmt.Println(err.Error())
-		os.Exit(1)
-	}
-	fmt.Println(string(out))
+	cmdstr := "/opt/cisco/anyconnect/bin/vpn -s < " + c.configPath
+	cmd := exec.Command("sh", "-c", cmdstr)
+
+	var stdout bytes.Buffer
+	var stderr bytes.Buffer
+	cmd.Stdout = &stdout
+	cmd.Stderr = &stderr
+
+	cmd.SysProcAttr = &syscall.SysProcAttr{Setsid: true}
+
+	cmd.Start()
+
+	go func() {
+		t := time.NewTimer(3 * time.Second)
+		<-t.C
+		fmt.Println("process kill")
+		syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL)
+		fmt.Println("pid : ", cmd.Process.Pid)
+		fmt.Println("ERROR : Timeout is occurred. Please reconfiguration your setting by using `any-connect config`.")
+	}()
+
+	cmd.Wait()
+
+	fmt.Println(string(stdout.Bytes()))
 }
