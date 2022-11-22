@@ -3,13 +3,11 @@ module TomoyukiSugiyama/any-connect
 go 1.19
 
 require (
-	github.com/Songmu/timeout v0.4.0
 	github.com/manifoldco/promptui v0.9.0
 	github.com/spf13/cobra v1.6.1
 )
 
 require (
-	github.com/Songmu/wrapcommander v0.1.0 // indirect
 	github.com/chzyer/readline v0.0.0-20180603132655-2972be24d48e // indirect
 	github.com/inconshreveable/mousetrap v1.0.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
