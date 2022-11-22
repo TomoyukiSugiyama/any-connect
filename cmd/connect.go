@@ -39,8 +39,5 @@ func connect() {
 
 	cmd.Wait()
 
-	if cmd.Err != nil {
-		fmt.Println(string(stderr.Bytes()))
-	}
 	fmt.Println(string(stdout.Bytes()))
 }
