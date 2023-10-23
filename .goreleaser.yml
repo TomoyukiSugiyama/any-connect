@@ -7,6 +7,9 @@ builds:
   - CGO_ENABLED=0
   main: ./any-connect.go
   binary: any-connect
+  goos:
+    - darwin
+    - linux
 checksum:
   name_template: 'checksums.txt'
 snapshot:
@@ -46,7 +49,7 @@ brews:
     # done with scoop.
 
     # GitHub/GitLab repository to push the formula to
-    tap:
+    repository:
       # Repository owner template. (templateable)
       owner: TomoyukiSugiyama
 
