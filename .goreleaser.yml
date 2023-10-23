@@ -5,13 +5,8 @@ before:
 builds:
 - env:
   - CGO_ENABLED=0
-  main: ./
+  main: ./any-connect.go
   binary: any-connect
-archives:
-- replacements:
-    darwin: Darwin
-    386: i386
-    amd64: x86_64
 checksum:
   name_template: 'checksums.txt'
 snapshot:
