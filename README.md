@@ -3,7 +3,7 @@ By using AnyConnect CLI, it is easy to connect VPN.
 This tool need to use AnyConnect provided by cisco.
 
 ## Setup
-Chose download or build.
+brew is a easy way to install AnyConnect CLI.
 
 ### Install with brew
 ```
