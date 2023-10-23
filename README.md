@@ -5,6 +5,12 @@ This tool need to use AnyConnect provided by cisco.
 ## Setup
 Chose download or build.
 
+### Install with brew
+```
+brew tap TomoyukiSugiyama/homebrew-tap
+brew install tomoyukisugiyama/tap/any-connect
+```
+
 ### Download from releases
 https://github.com/TomoyukiSugiyama/any-connect/releases
 
