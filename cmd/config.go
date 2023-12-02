@@ -50,7 +50,6 @@ func createConfigDir(c Config) {
 func setConfig(c Config) {
 	f, err := os.OpenFile(c.configPath, os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0600)
 	f.WriteString("connect " + c.hostName + "\n")
-	f.WriteString("y\n")
 	f.WriteString(c.groupName + "\n")
 	f.WriteString(c.userName + "\n")
 	f.WriteString(c.password + "\n")
