@@ -5,7 +5,6 @@ import (
 )
 
 var (
-	cfgFile string
 	rootCmd = &cobra.Command{
 		Use:   "any-connect [sub]",
 		Short: "Any Connect CLI",
