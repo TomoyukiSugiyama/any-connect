@@ -1,8 +1,11 @@
-github-action:
-  - .github/**/*
+GithubAction:
+- changed-files:
+  - any-glob-to-any-file: .github/**/*
 
-feature:
-  - cmd/*
+Feature:
+- changed-files:
+  - any-glob-to-any-file: cmd/*
 
-config:
-  - cmd/config.go
+Config:
+- changed-files:
+  - any-glob-to-any-file: cmd/config.go
