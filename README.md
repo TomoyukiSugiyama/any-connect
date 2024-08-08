@@ -40,9 +40,10 @@ Password: **********
 After configuration, you can use `any-connect connect / disconnect` command.
 
 ```sh
-# connect
+# connect vpn
+# after execute connect commnad, 2FA is required
 $ any-connect connect
-# disconnect
+# disconnect vpm
 $ any-connect disconnect
 # check state
 $ any-connect state
