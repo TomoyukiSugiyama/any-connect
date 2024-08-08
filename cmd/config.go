@@ -19,13 +19,14 @@ func init() {
 }
 
 type Config struct {
-	configDir  string
-	configPath string
-	configName string
-	hostName   string
-	groupName  string
-	userName   string
-	password   string
+	configDir          string
+	configPath         string
+	configName         string
+	hostName           string
+	groupName          string
+	userName           string
+	password           string
+	verificationMethod string
 }
 
 func New() *Config {
@@ -38,6 +39,7 @@ func New() *Config {
 	c.groupName = ""
 	c.userName = ""
 	c.password = ""
+	c.verificationMethod = "1"
 	return c
 }
 
@@ -53,6 +55,7 @@ func setConfig(c Config) {
 	f.WriteString(c.groupName + "\n")
 	f.WriteString(c.userName + "\n")
 	f.WriteString(c.password + "\n")
+	f.WriteString(c.verificationMethod + "\n")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -71,7 +74,7 @@ func selectHost(c *Config) {
 		if !strings.Contains(s, ">") {
 			continue
 		}
-		re := regexp.MustCompile("\\s+").Split(s, -1)
+		re := regexp.MustCompile(`\s+`).Split(s, -1)
 		items = append(items, re[2])
 	}
 	index := -1
@@ -103,7 +106,7 @@ func setGroup(c *Config) {
 
 	validate := func(input string) error {
 		if len(input) < 1 {
-			return errors.New("Group must have more than 1 characters")
+			return errors.New("group must have more than 1 characters")
 		}
 		return nil
 	}
@@ -131,10 +134,9 @@ func setGroup(c *Config) {
 }
 
 func setUser(c *Config) {
-
 	validate := func(input string) error {
 		if len(input) < 1 {
-			return errors.New("User must have more than 1 characters")
+			return errors.New("user must have more than 1 characters")
 		}
 		return nil
 	}
@@ -164,7 +166,7 @@ func setUser(c *Config) {
 func setPassword(c *Config) {
 	validate := func(input string) error {
 		if len(input) < 1 {
-			return errors.New("Password must have more than 1 characters")
+			return errors.New("password must have more than 1 characters")
 		}
 		return nil
 	}

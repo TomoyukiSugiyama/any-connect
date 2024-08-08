@@ -8,11 +8,6 @@ import (
 	"time"
 )
 
-func showPS() {
-	b, err := exec.Command("ps", "j").Output()
-	fmt.Println(string(b), err)
-}
-
 func connect() {
 	configIfNotExist()
 
@@ -29,7 +24,7 @@ func connect() {
 	cmd.Start()
 
 	go func() {
-		t := time.NewTimer(3 * time.Second)
+		t := time.NewTimer(120 * time.Second)
 		<-t.C
 		fmt.Println("process kill")
 		syscall.Kill(-cmd.Process.Pid, syscall.SIGKILL)
@@ -39,5 +34,5 @@ func connect() {
 
 	cmd.Wait()
 
-	fmt.Println(string(stdout.Bytes()))
+	fmt.Println(stdout.String())
 }
